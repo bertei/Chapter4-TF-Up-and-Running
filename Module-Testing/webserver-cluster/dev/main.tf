@@ -16,6 +16,12 @@ module "webserver-dev" {
     min_size = 1
     max_size = 2
     desired_capacity = 2
+
+    #Defining the map(string). Key = value
+    custom_tags= {
+        Owner       =   "team-foo"
+        ManagedBy   =   "terraform"
+    }
 }
 
 terraform {

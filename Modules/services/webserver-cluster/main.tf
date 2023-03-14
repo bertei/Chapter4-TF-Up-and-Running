@@ -40,10 +40,22 @@ resource "aws_autoscaling_group" "test-asg" {
     max_size = var.max_size
     desired_capacity = 2
 
-    tag {
-        key     = "Name"
-        value   = "${var.env}-asg-ec2"
-        propagate_at_launch = true ##Enables propagation of the tag to Amazon EC2 instances launched via this ASG
+    #Old way, you only can create one tag per resource
+    #tag {
+    #    key     = "Name"
+    #    value   = "${var.env}-asg-ec2"
+    #    propagate_at_launch = true ##Enables propagation of the tag to Amazon EC2 instances launched via this ASG
+    #}
+
+    #Inline block within a resource. It lets you create multiple resources (in this case tags)
+    dynamic "tags" {
+        for_each = var.custom_tags
+
+        content {
+            key     = tags.keys
+            value   = tags.value
+            propagate_at_launch = true
+        }
     }
 }
 
