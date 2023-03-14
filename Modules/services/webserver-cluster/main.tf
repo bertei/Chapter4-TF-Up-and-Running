@@ -49,11 +49,11 @@ resource "aws_autoscaling_group" "test-asg" {
 
     #Inline block within a resource. It lets you create multiple resources (in this case tags)
     dynamic "tags" {
-        for_each = var.custom_tags
+        for_each = var.custom_tags #here we'll iterate over the map(strings) that contain the key-values defined in the main.tf from the module call
 
         content {
-            key     = tags.keys
-            value   = tags.value
+            key     = tags.keys #key equals tags.keys --> first iteration (key = Owner)
+            value   = tags.value #value equals tags.value --> first iteration (value = "team-foo")
             propagate_at_launch = true
         }
     }
